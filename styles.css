@@ -35,7 +35,8 @@
 
 .pending-card {
   position: relative;
-  width: min(520px, 100%);
+  width: min(420px, 100%);
+  max-height: min(580px, 92vh);
   border-radius: 28px;
   border: 1px solid rgba(245, 200, 106, 0.18);
   background:
@@ -43,7 +44,7 @@
     radial-gradient(circle at 90% 20%, rgba(255, 77, 154, 0.12), transparent 30%),
     linear-gradient(180deg, rgba(10, 8, 12, 0.98), rgba(12, 9, 15, 0.96));
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.62), inset 0 0 90px rgba(255, 106, 175, 0.08);
-  padding: clamp(22px, 2.5vw, 32px);
+  padding: 26px 22px;
   display: grid;
   place-items: center;
   text-align: center;
@@ -116,15 +117,15 @@
 
 .pending-artwork {
   position: relative;
-  width: min(240px, 100%);
-  height: 300px;
-  margin: 0 auto 24px;
+  width: min(180px, 100%);
+  height: 220px;
+  margin: 0 auto 20px;
 }
 
 .pending-svg {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 0 18px rgba(255, 111, 180, 0.72));
+  filter: drop-shadow(0 0 16px rgba(255, 111, 180, 0.72));
 }
 
 .pending-sparkle {
@@ -176,9 +177,9 @@
   margin: 10px 0 0;
   color: #ff94c8;
   font-family: "Great Vibes", cursive;
-  font-size: clamp(2.8rem, 5vw, 4.2rem);
-  line-height: 0.98;
-  text-shadow: 0 0 20px rgba(255, 120, 196, 0.45);
+  font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+  line-height: 1;
+  text-shadow: 0 0 16px rgba(255, 120, 196, 0.45);
 }
 
 .pending-divider {
@@ -224,7 +225,7 @@
 }
 
 .pending-note {
-  max-width: 620px;
+  max-width: 320px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -245,6 +246,43 @@
 @keyframes pending-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 520px) {
+  .pending-card {
+    width: min(92vw, 100%);
+    padding: 18px 16px;
+    border-radius: 22px;
+  }
+
+  .pending-artwork {
+    width: min(160px, 100%);
+    height: 190px;
+    margin-bottom: 18px;
+  }
+
+  .pending-status-icon {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 20px;
+  }
+
+  .pending-label {
+    font-size: 1.05rem;
+  }
+
+  .pending-card h1 {
+    font-size: clamp(2.2rem, 9vw, 3rem);
+  }
+
+  .pending-divider {
+    gap: 12px;
+    margin: 16px auto 20px;
+  }
+
+  .pending-note {
+    max-width: 280px;
   }
 }
 
