@@ -27,7 +27,7 @@ let paymentIntervalId;
 let remainingPaymentSeconds = paymentWindowSeconds;
 
 const paymentCopy = {
-  paypal: "Continue to PayPal after confirming your Gmail ID.",
+  paypal: "Continue to live PayPal checkout after confirming your Gmail ID.",
   usdt: "Send USDT on TRC20 and include your Gmail ID in the payment note."
 };
 
@@ -70,9 +70,14 @@ function paypalPaymentUrl(plan, gmail) {
     cmd: "_xclick",
     business: merchantPayment.paypalEmail,
     item_name: `RealMaria Private Content - ${plan.label}`,
+    item_number: plan.label.toLowerCase().replace(/\s+/g, "-"),
     amount: plan.price,
     currency_code: "USD",
-    custom: gmail
+    custom: gmail,
+    invoice: `RM-${Date.now()}`,
+    no_shipping: "1",
+    return: "https://harsshsingh8.github.io/velvet-vault-landing-page/",
+    cancel_return: "https://harsshsingh8.github.io/velvet-vault-landing-page/"
   });
 
   return `https://www.paypal.com/cgi-bin/webscr?${params.toString()}`;
@@ -152,9 +157,9 @@ form.addEventListener("submit", (event) => {
 
   if (method === "paypal") {
     paymentBox.innerHTML = `
-      <strong>PayPal payment</strong>
-      <p>Pay $${plan.price} to ${merchantPayment.paypalEmail}. Add ${gmail} in the PayPal note, then paste your receipt or transaction ID below.</p>
-      <a class="primary-button" href="${paypalPaymentUrl(plan, gmail)}" target="_blank" rel="noopener">Open PayPal</a>
+      <strong>Live PayPal checkout</strong>
+      <p>Pay $${plan.price} to ${merchantPayment.paypalEmail}. After payment, paste the PayPal receipt or transaction ID below within 15 minutes.</p>
+      <a class="primary-button" href="${paypalPaymentUrl(plan, gmail)}" target="_blank" rel="noopener">Pay with PayPal</a>
     `;
   } else {
     paymentBox.innerHTML = `
