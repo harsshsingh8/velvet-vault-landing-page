@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Velvet Vault - Exclusive Content</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-overlay" aria-hidden="true"></div>
+
+      <nav class="topbar" aria-label="Primary">
+        <a class="brand" href="#">
+          <span class="brand-mark">V</span>
+          <span>Velvet Vault</span>
+        </a>
+        <a class="nav-action" href="#checkout">Join Now</a>
+      </nav>
+
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Private drops. Curated access. Members only.</p>
+          <h1 id="page-title">Exclusive content subscription with premium monthly access.</h1>
+          <p class="lead">Choose a plan, enter your Gmail ID, and complete payment with PayPal or USDT. Your access request is prepared instantly after checkout.</p>
+          <div class="trust-row" aria-label="Membership highlights">
+            <span>Private gallery</span>
+            <span>Early releases</span>
+            <span>Priority updates</span>
+          </div>
+        </div>
+
+        <form class="checkout" id="checkout" novalidate>
+          <div class="checkout-head">
+            <div>
+              <p class="section-kicker">Membership</p>
+              <h2>Select your plan</h2>
+            </div>
+            <span class="secure-pill">Secure request</span>
+          </div>
+
+          <fieldset class="plans" aria-label="Subscription plans">
+            <label class="plan-card active">
+              <input type="radio" name="plan" value="monthly" data-label="Monthly" data-price="15" checked>
+              <span class="plan-top">
+                <span>Monthly</span>
+                <strong>$15</strong>
+              </span>
+              <span class="plan-note">Flexible access billed once for 30 days.</span>
+            </label>
+
+            <label class="plan-card featured">
+              <input type="radio" name="plan" value="six-months" data-label="6 Months" data-price="60">
+              <span class="save-badge">Best value</span>
+              <span class="plan-top">
+                <span>6 Months</span>
+                <strong>$60</strong>
+              </span>
+              <span class="plan-note">Longer access with a lower monthly cost.</span>
+            </label>
+
+            <label class="plan-card">
+              <input type="radio" name="plan" value="yearly" data-label="Yearly" data-price="110">
+              <span class="plan-top">
+                <span>Yearly</span>
+                <strong>$110</strong>
+              </span>
+              <span class="plan-note">Full year membership with VIP priority.</span>
+            </label>
+          </fieldset>
+
+          <label class="field">
+            <span>Gmail ID for access</span>
+            <input id="gmail" type="email" placeholder="yourname@gmail.com" autocomplete="email" required>
+            <small id="emailError" aria-live="polite"></small>
+          </label>
+
+          <fieldset class="payment-methods" aria-label="Payment method">
+            <label class="pay-option active">
+              <input type="radio" name="payment" value="paypal" checked>
+              <span class="pay-icon">P</span>
+              <span>
+                <strong>PayPal</strong>
+                <small>Card or PayPal balance</small>
+              </span>
+            </label>
+            <label class="pay-option">
+              <input type="radio" name="payment" value="usdt">
+              <span class="pay-icon tether">T</span>
+              <span>
+                <strong>USDT</strong>
+                <small>TRC20 wallet transfer</small>
+              </span>
+            </label>
+          </fieldset>
+
+          <div class="summary" aria-live="polite">
+            <div>
+              <span id="summaryPlan">Monthly</span>
+              <strong id="summaryPrice">$15</strong>
+            </div>
+            <p id="paymentHelp">Continue to PayPal after confirming your Gmail ID.</p>
+          </div>
+
+          <button class="primary-button" type="submit">Continue payment</button>
+          <p class="form-note">Access is reviewed and activated against the Gmail ID you submit.</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="details" aria-label="Included benefits">
+      <div class="detail-item">
+        <span>01</span>
+        <h3>Fresh private releases</h3>
+        <p>Members get curated exclusive content updates without waiting for public previews.</p>
+      </div>
+      <div class="detail-item">
+        <span>02</span>
+        <h3>Simple payment choices</h3>
+        <p>Use PayPal for fast checkout or USDT for wallet-based payment confirmation.</p>
+      </div>
+      <div class="detail-item">
+        <span>03</span>
+        <h3>Gmail-based access</h3>
+        <p>Your subscription request is tied to the Gmail account entered during payment.</p>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="modal" id="paymentModal">
+    <div class="modal-card">
+      <button class="close-button" type="button" aria-label="Close payment dialog">&times;</button>
+      <p class="section-kicker">Payment request</p>
+      <h2 id="modalTitle">Confirm your subscription</h2>
+      <p id="modalText"></p>
+      <div class="payment-box" id="paymentBox"></div>
+      <button class="primary-button" id="doneButton" type="button">Done</button>
+    </div>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
