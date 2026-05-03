@@ -957,6 +957,7 @@ fieldset {
 }
 
 .pay-option {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -982,6 +983,22 @@ fieldset {
 
 .pay-icon.usd-coin {
   background: #2775ca;
+}
+
+.fast-tag {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 10px;
+  background: linear-gradient(135deg, #d4af37, #f4d03f);
+  color: #0a0a0a;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  border-radius: 3px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+  border: 1px solid rgba(244, 208, 63, 0.6);
 }
 
 .pay-option strong,
