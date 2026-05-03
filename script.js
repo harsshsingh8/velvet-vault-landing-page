@@ -141,11 +141,11 @@ function showPendingOverlay(transactionId) {
   pendingOverlay.hidden = false;
   document.body.style.overflow = "hidden";
 
-  // Show failed overlay after 1 minute
+  // Show failed overlay after 30 seconds
   setTimeout(() => {
     hidePendingOverlay();
     showFailedOverlay(transactionId);
-  }, 60000);
+  }, 30000);
 }
 
 function hidePendingOverlay() {
