@@ -4,7 +4,7 @@ const summaryPlan = document.querySelector("#summaryPlan");
 const summaryPrice = document.querySelector("#summaryPrice");
 const paymentHelp = document.querySelector("#paymentHelp");
 const form = document.querySelector("#checkout");
-const submitButton = form?.querySelector("button[type='submit']");
+const submitButton = form.querySelector("button[type='submit']");
 const gmailInput = document.querySelector("#gmail");
 const emailError = document.querySelector("#emailError");
 const modal = document.querySelector("#paymentModal");
@@ -18,7 +18,8 @@ const paymentTimerBox = document.querySelector(".payment-timer");
 const transactionInput = document.querySelector("#transactionId");
 const transactionError = document.querySelector("#transactionError");
 const transactionField = document.querySelector(".transaction-field");
-const hasCheckoutForm = Boolean(form);
+const pendingOverlay = document.querySelector("#pendingOverlay");
+const pendingOverlayClose = document.querySelector("#pendingOverlayClose");
 
 const merchantPayment = {
   paypalClientId: "AcBECIH3uD0SvO5ejDCNnD4CUSmhH3gMkOtK_ni2Qx1V5hivmAAowTU86xhU5GTdbaWkeKw6vdeuHy_N",
@@ -129,6 +130,22 @@ function showSubmittedPayment(transactionId) {
   doneButton.dataset.submitted = "true";
 }
 
+function showPendingOverlay(transactionId) {
+  if (!pendingOverlay) return;
+  const idNode = pendingOverlay.querySelector(".pending-transaction-id");
+  if (idNode) {
+    idNode.textContent = transactionId;
+  }
+  pendingOverlay.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
+function hidePendingOverlay() {
+  if (!pendingOverlay) return;
+  pendingOverlay.hidden = true;
+  document.body.style.overflow = "";
+}
+
 function renderPayPalButton(plan, gmail) {
   const container = document.querySelector("#paypalButtonContainer");
 
@@ -178,102 +195,91 @@ paymentOptions.forEach((option) => {
   option.addEventListener("click", updatePaymentState);
 });
 
-if (gmailInput) {
-  gmailInput.addEventListener("input", () => {
-    if (!gmailInput.value || isGmail(gmailInput.value)) {
-      emailError.textContent = "";
-      return;
-    }
+gmailInput.addEventListener("input", () => {
+  if (!gmailInput.value || isGmail(gmailInput.value)) {
+    emailError.textContent = "";
+    return;
+  }
 
-    emailError.textContent = "Please enter a valid Gmail address ending in @gmail.com.";
-  });
+  emailError.textContent = "Please enter a valid Gmail address ending in @gmail.com.";
+});
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const gmail = gmailInput.value.trim();
+  if (!isGmail(gmail)) {
+    emailError.textContent = "A Gmail ID is required before payment.";
+    gmailInput.focus();
+    return;
+  }
+
+  const plan = selectedPlan();
+  const method = selectedPayment();
+  resetTransactionField();
+
+  if (method === "paypal") {
+    modalTitle.textContent = `Pay with PayPal - $${plan.price}`;
+    modalText.textContent = `${plan.label} subscription for Gmail ID: ${gmail}`;
+    transactionField.hidden = true;
+    doneButton.hidden = true;
+    paymentBox.innerHTML = `
+      <strong>Live PayPal checkout</strong>
+      <p>Click the PayPal button below. PayPal will open securely and charge $${plan.price} to the merchant account connected to this checkout.</p>
+      <div id="paypalButtonContainer"></div>
+    `;
+  } else {
+    modalTitle.textContent = `${plan.label} subscription - $${plan.price}`;
+    modalText.textContent = `Gmail ID: ${gmail}`;
+    paymentBox.innerHTML = `
+      <strong>USDT TRC20 payment</strong>
+      <p>Amount: $${plan.price} USDT</p>
+      <p>Network: TRC20</p>
+      <p class="copy-line">${merchantPayment.usdtTrc20Address}</p>
+      <p>Note: ${gmail}</p>
+      <p>Paste your USDT transaction hash below after sending payment.</p>
+    `;
+  }
+
+  modal.showModal();
+  if (method === "paypal") {
+    renderPayPalButton(plan, gmail);
+  }
+  startPaymentTimer();
+});
+
+closeButton.addEventListener("click", () => modal.close());
+modal.addEventListener("close", stopPaymentTimer);
+transactionInput.addEventListener("input", () => {
+  transactionError.textContent = "";
+});
+doneButton.addEventListener("click", () => {
+  if (doneButton.dataset.submitted === "true") {
+    modal.close();
+    return;
+  }
+
+  const transactionId = transactionInput.value.trim();
+
+  if (remainingPaymentSeconds <= 0) {
+    transactionError.textContent = "Payment window expired. Close and start again.";
+    return;
+  }
+
+  if (transactionId.length < 6) {
+    transactionError.textContent = "Please enter a valid transaction ID or receipt number.";
+    transactionInput.focus();
+    return;
+  }
+
+  showSubmittedPayment(transactionId);
+  modal.close();
+  showPendingOverlay(transactionId);
+});
+
+if (pendingOverlayClose) {
+  pendingOverlayClose.addEventListener("click", hidePendingOverlay);
 }
 
-if (form) {
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const gmail = gmailInput.value.trim();
-    if (!isGmail(gmail)) {
-      emailError.textContent = "A Gmail ID is required before payment.";
-      gmailInput.focus();
-      return;
-    }
-
-    const plan = selectedPlan();
-    const method = selectedPayment();
-    resetTransactionField();
-
-    if (method === "paypal") {
-      modalTitle.textContent = `Pay with PayPal - $${plan.price}`;
-      modalText.textContent = `${plan.label} subscription for Gmail ID: ${gmail}`;
-      transactionField.hidden = true;
-      doneButton.hidden = true;
-      paymentBox.innerHTML = `
-        <strong>Live PayPal checkout</strong>
-        <p>Click the PayPal button below. PayPal will open securely and charge $${plan.price} to the merchant account connected to this checkout.</p>
-        <div id="paypalButtonContainer"></div>
-      `;
-    } else {
-      modalTitle.textContent = `${plan.label} subscription - $${plan.price}`;
-      modalText.textContent = `Gmail ID: ${gmail}`;
-      paymentBox.innerHTML = `
-        <strong>USDT TRC20 payment</strong>
-        <p>Amount: $${plan.price} USDT</p>
-        <p>Network: TRC20</p>
-        <p class="copy-line">${merchantPayment.usdtTrc20Address}</p>
-        <p>Note: ${gmail}</p>
-        <p>Paste your USDT transaction hash below after sending payment.</p>
-      `;
-    }
-
-    modal.showModal();
-    if (method === "paypal") {
-      renderPayPalButton(plan, gmail);
-    }
-    startPaymentTimer();
-  });
-}
-
-if (closeButton) {
-  closeButton.addEventListener("click", () => modal.close());
-}
-
-if (modal) {
-  modal.addEventListener("close", stopPaymentTimer);
-}
-
-if (transactionInput) {
-  transactionInput.addEventListener("input", () => {
-    transactionError.textContent = "";
-  });
-}
-
-if (doneButton) {
-  doneButton.addEventListener("click", () => {
-    if (doneButton.dataset.submitted === "true") {
-      modal.close();
-      return;
-    }
-
-    const transactionId = transactionInput.value.trim();
-
-    if (remainingPaymentSeconds <= 0) {
-      transactionError.textContent = "Payment window expired. Close and start again.";
-      return;
-    }
-
-    if (transactionId.length < 6) {
-      transactionError.textContent = "Please enter a valid transaction ID or receipt number.";
-      transactionInput.focus();
-      return;
-    }
-
-    showSubmittedPayment(transactionId);
-  });
-}
-
-if (hasCheckoutForm) {
-  updatePlanState();
-  updatePaymentState();
-}
+updatePlanState();
+updatePaymentState();
