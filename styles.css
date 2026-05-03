@@ -92,13 +92,21 @@ input {
 
 .brand-mark {
   display: grid;
-  width: 38px;
-  height: 38px;
+  width: 46px;
+  height: 46px;
   place-items: center;
-  border: 1px solid rgba(245, 200, 106, 0.72);
-  background: rgba(245, 200, 106, 0.14);
-  color: var(--gold);
+  border: 1px solid rgba(240, 118, 143, 0.78);
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.42), transparent 22%),
+    linear-gradient(135deg, rgba(240, 118, 143, 0.95), rgba(245, 200, 106, 0.88));
+  color: #15080c;
   border-radius: 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.9rem;
+  font-style: italic;
+  font-weight: 900;
+  box-shadow: 0 12px 34px rgba(240, 118, 143, 0.34);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.36);
 }
 
 .nav-action {

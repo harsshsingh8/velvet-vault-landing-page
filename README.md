@@ -1,4 +1,4 @@
-# Velvet Vault Landing Page
+# RealMaria Private Content Landing Page
 
 Static subscription landing page with plan selection, Gmail validation, and PayPal/USDT payment prompts.
 
