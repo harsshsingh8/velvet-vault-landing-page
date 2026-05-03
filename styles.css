@@ -1012,39 +1012,41 @@ fieldset {
 .card-inner {
   position: relative;
   height: 180px;
-  border-radius: 18px;
+  border-radius: 20px;
   overflow: hidden;
   background: linear-gradient(
     135deg,
-    rgba(15, 23, 42, 0.95),
-    rgba(30, 41, 59, 0.9)
+    rgba(10, 15, 30, 0.98),
+    rgba(20, 30, 50, 0.95)
   );
-  border: 2px solid rgba(var(--glow-rgb, 59, 130, 246), 0.3);
-  backdrop-filter: blur(10px);
+  border: 2.5px solid var(--glow-color, #ec4899);
+  backdrop-filter: blur(12px);
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.3),
-    0 0 20px var(--glow-shadow, rgba(59, 130, 246, 0.5)),
+    0 0 40px var(--glow-shadow, rgba(236, 72, 153, 0.8)),
+    0 0 80px var(--glow-shadow, rgba(236, 72, 153, 0.5)),
+    0 12px 48px rgba(0, 0, 0, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 18px;
+  padding: 20px;
 }
 
 .card-glow {
   position: absolute;
-  inset: -2px;
-  border-radius: 18px;
+  inset: -4px;
+  border-radius: 20px;
   background: radial-gradient(
     circle at 30% 20%,
-    var(--glow-color, #3b82f6),
-    transparent 50%
+    var(--glow-color, #ec4899),
+    transparent 45%
   );
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
   z-index: 0;
+  filter: blur(4px);
 }
 
 .card-content {
@@ -1058,27 +1060,27 @@ fieldset {
 .payment-icon {
   width: 56px;
   height: 56px;
-  border-radius: 14px;
+  border-radius: 16px;
   display: grid;
   place-items: center;
   font-size: 1.8rem;
   font-weight: 900;
   color: white;
   flex-shrink: 0;
-  box-shadow: 0 0 16px var(--glow-shadow, rgba(59, 130, 246, 0.5));
+  box-shadow: 0 0 20px var(--glow-shadow, rgba(236, 72, 153, 0.8));
   transition: all 0.3s ease;
 }
 
 .payment-icon.paypal-icon {
-  background: linear-gradient(135deg, #003087, #1a73e8);
+  background: linear-gradient(135deg, #d946ef, #ec4899);
 }
 
 .payment-icon.usdt-icon {
-  background: linear-gradient(135deg, #26a17b, #28b67e);
+  background: linear-gradient(135deg, #6ee7b7, #10b981);
 }
 
 .payment-icon.usdc-icon {
-  background: linear-gradient(135deg, #2775ca, #2b88e6);
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
 }
 
 .payment-info {
@@ -1106,35 +1108,44 @@ fieldset {
   position: absolute;
   top: 12px;
   right: 12px;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.05em;
+  padding: 8px 16px;
+  border-radius: 24px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
   z-index: 3;
   background: linear-gradient(
     135deg,
-    var(--glow-color, #3b82f6),
-    brightness(1.2) var(--glow-color, #3b82f6)
+    var(--glow-color, #ec4899),
+    rgba(var(--glow-rgb, 236, 72, 153), 0.8)
   );
-  color: white;
+  color: #ffffff;
   box-shadow:
-    0 0 16px var(--glow-shadow, rgba(59, 130, 246, 0.6)),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    0 0 20px var(--glow-shadow, rgba(236, 72, 153, 0.8)),
+    0 0 40px var(--glow-shadow, rgba(236, 72, 153, 0.5)),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3);
   animation: badge-pulse 2s ease-in-out infinite;
-  text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 @keyframes badge-pulse {
   0%, 100% {
     box-shadow:
-      0 0 16px var(--glow-shadow, rgba(59, 130, 246, 0.6)),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      0 0 20px var(--glow-shadow, rgba(236, 72, 153, 0.8)),
+      0 0 40px var(--glow-shadow, rgba(236, 72, 153, 0.5)),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+    transform: scale(1);
   }
   50% {
     box-shadow:
-      0 0 24px var(--glow-shadow, rgba(59, 130, 246, 0.8)),
-      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      0 0 30px var(--glow-shadow, rgba(236, 72, 153, 1)),
+      0 0 60px var(--glow-shadow, rgba(236, 72, 153, 0.7)),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+    transform: scale(1.05);
   }
 }
 
@@ -1155,33 +1166,35 @@ fieldset {
 }
 
 .payment-card:hover .card-inner {
-  transform: translateY(-6px) scale(1.02);
-  border-color: var(--glow-color, #3b82f6);
+  transform: translateY(-8px) scale(1.03);
+  border-color: var(--glow-color, #ec4899);
   box-shadow:
-    0 16px 48px rgba(0, 0, 0, 0.4),
-    0 0 32px var(--glow-shadow, rgba(59, 130, 246, 0.7)),
+    0 0 50px var(--glow-shadow, rgba(236, 72, 153, 0.9)),
+    0 0 100px var(--glow-shadow, rgba(236, 72, 153, 0.6)),
+    0 20px 60px rgba(0, 0, 0, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .payment-card:hover .card-glow {
-  opacity: 0.15;
+  opacity: 0.25;
 }
 
 .payment-card:hover .payment-icon {
-  transform: scale(1.1);
-  box-shadow: 0 0 24px var(--glow-shadow, rgba(59, 130, 246, 0.8));
+  transform: scale(1.15);
+  box-shadow: 0 0 32px var(--glow-shadow, rgba(236, 72, 153, 0.9));
 }
 
 .payment-card.active .card-inner {
-  border-color: var(--glow-color, #3b82f6);
+  border-color: var(--glow-color, #ec4899);
   box-shadow:
-    0 12px 40px rgba(0, 0, 0, 0.35),
-    0 0 28px var(--glow-shadow, rgba(59, 130, 246, 0.7)),
+    0 0 40px var(--glow-shadow, rgba(236, 72, 153, 0.85)),
+    0 0 80px var(--glow-shadow, rgba(236, 72, 153, 0.6)),
+    0 16px 50px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
   background: linear-gradient(
     135deg,
-    rgba(var(--glow-rgb, 59, 130, 246), 0.1),
-    rgba(var(--glow-rgb, 59, 130, 246), 0.05)
+    rgba(var(--glow-rgb, 236, 72, 153), 0.15),
+    rgba(var(--glow-rgb, 236, 72, 153), 0.08)
   );
 }
 
@@ -1190,10 +1203,11 @@ fieldset {
 }
 
 .payment-card input:checked ~ .card-inner {
-  border-color: var(--glow-color, #3b82f6);
+  border-color: var(--glow-color, #ec4899);
   box-shadow:
-    0 12px 40px rgba(0, 0, 0, 0.35),
-    0 0 28px var(--glow-shadow, rgba(59, 130, 246, 0.7)),
+    0 0 40px var(--glow-shadow, rgba(236, 72, 153, 0.85)),
+    0 0 80px var(--glow-shadow, rgba(236, 72, 153, 0.6)),
+    0 16px 50px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
