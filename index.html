@@ -138,8 +138,17 @@
       <p class="section-kicker">Payment request</p>
       <h2 id="modalTitle">Confirm your subscription</h2>
       <p id="modalText"></p>
+      <div class="payment-timer" role="status" aria-live="polite">
+        <span>Payment window</span>
+        <strong id="paymentTimer">15:00</strong>
+      </div>
       <div class="payment-box" id="paymentBox"></div>
-      <button class="primary-button" id="doneButton" type="button">Done</button>
+      <label class="field transaction-field">
+        <span>Transaction ID / Receipt No.</span>
+        <input id="transactionId" type="text" placeholder="Enter PayPal receipt ID or USDT TxID" autocomplete="off" required>
+        <small id="transactionError" aria-live="polite"></small>
+      </label>
+      <button class="primary-button" id="doneButton" type="button">Submit payment details</button>
     </div>
   </dialog>
 

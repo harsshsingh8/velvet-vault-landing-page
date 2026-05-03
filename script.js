@@ -12,11 +12,19 @@ const modalText = document.querySelector("#modalText");
 const paymentBox = document.querySelector("#paymentBox");
 const closeButton = document.querySelector(".close-button");
 const doneButton = document.querySelector("#doneButton");
+const paymentTimer = document.querySelector("#paymentTimer");
+const paymentTimerBox = document.querySelector(".payment-timer");
+const transactionInput = document.querySelector("#transactionId");
+const transactionError = document.querySelector("#transactionError");
 
 const merchantPayment = {
-  paypalUrl: "https://www.paypal.com/paypalme/YourProfile",
-  usdtTrc20Address: "TX7p9ReplaceWithYourUSDTWalletAddress"
+  paypalEmail: "harshsingh9993@gmail.com",
+  usdtTrc20Address: "TTZsRB6LvEBZN5pNcCWu8qWK6o19rs19jB"
 };
+
+const paymentWindowSeconds = 15 * 60;
+let paymentIntervalId;
+let remainingPaymentSeconds = paymentWindowSeconds;
 
 const paymentCopy = {
   paypal: "Continue to PayPal after confirming your Gmail ID.",
@@ -57,6 +65,58 @@ function isGmail(value) {
   return /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(value.trim());
 }
 
+function paypalPaymentUrl(plan, gmail) {
+  const params = new URLSearchParams({
+    cmd: "_xclick",
+    business: merchantPayment.paypalEmail,
+    item_name: `RealMaria Private Content - ${plan.label}`,
+    amount: plan.price,
+    currency_code: "USD",
+    custom: gmail
+  });
+
+  return `https://www.paypal.com/cgi-bin/webscr?${params.toString()}`;
+}
+
+function formatTime(totalSeconds) {
+  const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
+  const seconds = String(totalSeconds % 60).padStart(2, "0");
+  return `${minutes}:${seconds}`;
+}
+
+function stopPaymentTimer() {
+  if (paymentIntervalId) {
+    clearInterval(paymentIntervalId);
+    paymentIntervalId = undefined;
+  }
+}
+
+function startPaymentTimer() {
+  stopPaymentTimer();
+  remainingPaymentSeconds = paymentWindowSeconds;
+  paymentTimer.textContent = formatTime(remainingPaymentSeconds);
+  paymentTimerBox.classList.remove("expired");
+
+  paymentIntervalId = setInterval(() => {
+    remainingPaymentSeconds -= 1;
+    paymentTimer.textContent = formatTime(Math.max(remainingPaymentSeconds, 0));
+
+    if (remainingPaymentSeconds <= 0) {
+      stopPaymentTimer();
+      paymentTimerBox.classList.add("expired");
+      transactionError.textContent = "This 15 minute payment window expired. Close and start again.";
+    }
+  }, 1000);
+}
+
+function resetTransactionField() {
+  transactionInput.value = "";
+  transactionInput.disabled = false;
+  transactionError.textContent = "";
+  doneButton.textContent = "Submit payment details";
+  doneButton.dataset.submitted = "false";
+}
+
 planCards.forEach((card) => {
   card.addEventListener("click", updatePlanState);
 });
@@ -88,26 +148,64 @@ form.addEventListener("submit", (event) => {
   const method = selectedPayment();
   modalTitle.textContent = `${plan.label} subscription - $${plan.price}`;
   modalText.textContent = `Gmail ID: ${gmail}`;
+  resetTransactionField();
 
   if (method === "paypal") {
     paymentBox.innerHTML = `
       <strong>PayPal payment</strong>
-      <p>Send $${plan.price} using PayPal and include ${gmail} in the payment note.</p>
-      <a class="primary-button" href="${merchantPayment.paypalUrl}" target="_blank" rel="noopener">Open PayPal</a>
+      <p>Pay $${plan.price} to ${merchantPayment.paypalEmail}. Add ${gmail} in the PayPal note, then paste your receipt or transaction ID below.</p>
+      <a class="primary-button" href="${paypalPaymentUrl(plan, gmail)}" target="_blank" rel="noopener">Open PayPal</a>
     `;
   } else {
     paymentBox.innerHTML = `
       <strong>USDT TRC20 payment</strong>
       <p>Amount: $${plan.price} USDT</p>
-      <p>Wallet: ${merchantPayment.usdtTrc20Address}</p>
+      <p>Network: TRC20</p>
+      <p class="copy-line">${merchantPayment.usdtTrc20Address}</p>
       <p>Note: ${gmail}</p>
+      <p>Paste your USDT transaction hash below after sending payment.</p>
     `;
   }
 
   modal.showModal();
+  startPaymentTimer();
 });
 
 closeButton.addEventListener("click", () => modal.close());
-doneButton.addEventListener("click", () => modal.close());
+modal.addEventListener("close", stopPaymentTimer);
+transactionInput.addEventListener("input", () => {
+  transactionError.textContent = "";
+});
+doneButton.addEventListener("click", () => {
+  if (doneButton.dataset.submitted === "true") {
+    modal.close();
+    return;
+  }
+
+  const transactionId = transactionInput.value.trim();
+
+  if (remainingPaymentSeconds <= 0) {
+    transactionError.textContent = "Payment window expired. Close and start again.";
+    return;
+  }
+
+  if (transactionId.length < 6) {
+    transactionError.textContent = "Please enter a valid transaction ID or receipt number.";
+    transactionInput.focus();
+    return;
+  }
+
+  stopPaymentTimer();
+  modalTitle.textContent = "Payment details submitted";
+  modalText.textContent = "Your transaction ID has been captured in this browser session.";
+  paymentBox.innerHTML = `
+    <strong>Submitted transaction</strong>
+    <p class="copy-line">${transactionId}</p>
+    <p>Keep this ID safe for payment verification.</p>
+  `;
+  transactionInput.disabled = true;
+  doneButton.textContent = "Close";
+  doneButton.dataset.submitted = "true";
+});
 updatePlanState();
 updatePaymentState();

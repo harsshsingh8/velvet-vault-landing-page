@@ -523,6 +523,46 @@ fieldset {
   color: var(--gold);
 }
 
+.payment-timer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 18px;
+  border: 1px solid rgba(240, 118, 143, 0.42);
+  border-radius: 8px;
+  padding: 13px 14px;
+  background: rgba(240, 118, 143, 0.1);
+}
+
+.payment-timer span {
+  color: rgba(255, 255, 255, 0.82);
+  font-weight: 800;
+}
+
+.payment-timer strong {
+  color: var(--gold);
+  font-size: 1.25rem;
+}
+
+.payment-timer.expired {
+  border-color: rgba(255, 155, 170, 0.72);
+  background: rgba(255, 72, 103, 0.14);
+}
+
+.transaction-field {
+  margin-top: 16px;
+}
+
+.payment-box .copy-line {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.22);
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 800;
+}
+
 @media (max-width: 920px) {
   .hero {
     padding-bottom: 34px;
