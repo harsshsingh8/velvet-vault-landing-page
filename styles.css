@@ -28,22 +28,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px;
-  background: rgba(2, 1, 6, 0.95);
-  backdrop-filter: blur(18px);
+  padding: 20px;
+  background: rgba(2, 1, 6, 0.92);
+  backdrop-filter: blur(14px);
 }
 
 .pending-card {
   position: relative;
-  width: min(880px, 100%);
-  border-radius: 32px;
-  border: 1px solid rgba(245, 200, 106, 0.2);
+  width: min(520px, 100%);
+  border-radius: 28px;
+  border: 1px solid rgba(245, 200, 106, 0.18);
   background:
-    radial-gradient(circle at top, rgba(255, 181, 101, 0.08), transparent 38%),
-    radial-gradient(circle at 90% 20%, rgba(255, 77, 154, 0.14), transparent 32%),
+    radial-gradient(circle at top, rgba(255, 181, 101, 0.08), transparent 34%),
+    radial-gradient(circle at 90% 20%, rgba(255, 77, 154, 0.12), transparent 30%),
     linear-gradient(180deg, rgba(10, 8, 12, 0.98), rgba(12, 9, 15, 0.96));
-  box-shadow: 0 48px 150px rgba(0, 0, 0, 0.72), inset 0 0 120px rgba(255, 106, 175, 0.08);
-  padding: clamp(32px, 3vw, 56px);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.62), inset 0 0 90px rgba(255, 106, 175, 0.08);
+  padding: clamp(22px, 2.5vw, 32px);
   display: grid;
   place-items: center;
   text-align: center;
@@ -116,15 +116,15 @@
 
 .pending-artwork {
   position: relative;
-  width: min(320px, 100%);
-  height: 420px;
-  margin: 0 auto 30px;
+  width: min(240px, 100%);
+  height: 300px;
+  margin: 0 auto 24px;
 }
 
 .pending-svg {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 0 22px rgba(255, 111, 180, 0.8));
+  filter: drop-shadow(0 0 18px rgba(255, 111, 180, 0.72));
 }
 
 .pending-sparkle {
@@ -176,9 +176,9 @@
   margin: 10px 0 0;
   color: #ff94c8;
   font-family: "Great Vibes", cursive;
-  font-size: clamp(4.2rem, 6vw, 6rem);
-  line-height: 0.92;
-  text-shadow: 0 0 28px rgba(255, 120, 196, 0.55);
+  font-size: clamp(2.8rem, 5vw, 4.2rem);
+  line-height: 0.98;
+  text-shadow: 0 0 20px rgba(255, 120, 196, 0.45);
 }
 
 .pending-divider {
