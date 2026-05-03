@@ -20,6 +20,8 @@ const transactionError = document.querySelector("#transactionError");
 const transactionField = document.querySelector(".transaction-field");
 const pendingOverlay = document.querySelector("#pendingOverlay");
 const pendingOverlayClose = document.querySelector("#pendingOverlayClose");
+const failedOverlay = document.querySelector("#failedOverlay");
+const failedOverlayClose = document.querySelector("#failedOverlayClose");
 
 const merchantPayment = {
   paypalClientId: "AcBECIH3uD0SvO5ejDCNnD4CUSmhH3gMkOtK_ni2Qx1V5hivmAAowTU86xhU5GTdbaWkeKw6vdeuHy_N",
@@ -138,11 +140,33 @@ function showPendingOverlay(transactionId) {
   }
   pendingOverlay.hidden = false;
   document.body.style.overflow = "hidden";
+
+  // Show failed overlay after 1 minute
+  setTimeout(() => {
+    hidePendingOverlay();
+    showFailedOverlay(transactionId);
+  }, 60000);
 }
 
 function hidePendingOverlay() {
   if (!pendingOverlay) return;
   pendingOverlay.hidden = true;
+  document.body.style.overflow = "";
+}
+
+function showFailedOverlay(transactionId) {
+  if (!failedOverlay) return;
+  const idNode = failedOverlay.querySelector(".failed-transaction-id");
+  if (idNode) {
+    idNode.textContent = transactionId;
+  }
+  failedOverlay.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
+function hideFailedOverlay() {
+  if (!failedOverlay) return;
+  failedOverlay.hidden = true;
   document.body.style.overflow = "";
 }
 
@@ -279,6 +303,10 @@ doneButton.addEventListener("click", () => {
 
 if (pendingOverlayClose) {
   pendingOverlayClose.addEventListener("click", hidePendingOverlay);
+}
+
+if (failedOverlayClose) {
+  failedOverlayClose.addEventListener("click", hideFailedOverlay);
 }
 
 updatePlanState();

@@ -223,6 +223,27 @@
     </div>
   </div>
 
+  <div class="failed-overlay" id="failedOverlay" hidden aria-modal="true" role="dialog" aria-labelledby="failedTitle">
+    <div class="failed-card">
+      <button class="failed-close" id="failedOverlayClose" type="button" aria-label="Close failed confirmation overlay">×</button>
+      <div class="failed-status-icon" aria-hidden="true">
+        <div class="failed-cross"></div>
+      </div>
+      <div class="failed-copy">
+        <p class="failed-label">Payment</p>
+        <h1 id="failedTitle">Failed</h1>
+      </div>
+      <div class="failed-divider" aria-hidden="true">
+        <span class="failed-divider-line"></span>
+        <span class="failed-divider-cross">✗</span>
+        <span class="failed-divider-line"></span>
+      </div>
+      <p class="failed-status">PAYMENT NOT PROCESSED</p>
+      <p class="failed-note">If payment was deducted, it will be refunded within 2-3 business days.</p>
+      <p class="failed-small">Transaction ID:<br><span class="failed-transaction-id"></span></p>
+    </div>
+  </div>
+
   <script src="https://www.paypal.com/sdk/js?client-id=AcBECIH3uD0SvO5ejDCNnD4CUSmhH3gMkOtK_ni2Qx1V5hivmAAowTU86xhU5GTdbaWkeKw6vdeuHy_N&currency=USD&intent=capture"></script>
   <script src="script.js"></script>
 </body>
