@@ -18,6 +18,7 @@ const transactionInput = document.querySelector("#transactionId");
 const transactionError = document.querySelector("#transactionError");
 
 const merchantPayment = {
+  paypalClientId: "AaCi1aE_vOFlp3hyWA4CSiebcp37z5YaFDIEctTELT43J5O",
   paypalEmail: "harshsingh9993@gmail.com",
   usdtTrc20Address: "TTZsRB6LvEBZN5pNcCWu8qWK6o19rs19jB"
 };
@@ -65,24 +66,6 @@ function isGmail(value) {
   return /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(value.trim());
 }
 
-function paypalPaymentUrl(plan, gmail) {
-  const params = new URLSearchParams({
-    cmd: "_xclick",
-    business: merchantPayment.paypalEmail,
-    item_name: `RealMaria Private Content - ${plan.label}`,
-    item_number: plan.label.toLowerCase().replace(/\s+/g, "-"),
-    amount: plan.price,
-    currency_code: "USD",
-    custom: gmail,
-    invoice: `RM-${Date.now()}`,
-    no_shipping: "1",
-    return: "https://harsshsingh8.github.io/velvet-vault-landing-page/",
-    cancel_return: "https://harsshsingh8.github.io/velvet-vault-landing-page/"
-  });
-
-  return `https://www.paypal.com/cgi-bin/webscr?${params.toString()}`;
-}
-
 function formatTime(totalSeconds) {
   const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
   const seconds = String(totalSeconds % 60).padStart(2, "0");
@@ -122,6 +105,62 @@ function resetTransactionField() {
   doneButton.dataset.submitted = "false";
 }
 
+function showSubmittedPayment(transactionId) {
+  stopPaymentTimer();
+  modalTitle.textContent = "Payment details submitted";
+  modalText.textContent = "Your transaction ID has been captured in this browser session.";
+  paymentBox.innerHTML = `
+    <strong>Submitted transaction</strong>
+    <p class="copy-line">${transactionId}</p>
+    <p>Keep this ID safe for payment verification.</p>
+  `;
+  transactionInput.value = transactionId;
+  transactionInput.disabled = true;
+  doneButton.textContent = "Close";
+  doneButton.dataset.submitted = "true";
+}
+
+function renderPayPalButton(plan, gmail) {
+  const container = document.querySelector("#paypalButtonContainer");
+
+  if (!window.paypal || !container) {
+    container.innerHTML = "<p>PayPal checkout could not load. Refresh the page and try again.</p>";
+    return;
+  }
+
+  window.paypal.Buttons({
+    style: {
+      shape: "rect",
+      color: "gold",
+      layout: "vertical",
+      label: "paypal"
+    },
+    createOrder: (data, actions) => actions.order.create({
+      purchase_units: [{
+        description: `RealMaria Private Content - ${plan.label}`,
+        custom_id: gmail,
+        amount: {
+          currency_code: "USD",
+          value: plan.price
+        }
+      }],
+      application_context: {
+        shipping_preference: "NO_SHIPPING"
+      }
+    }),
+    onApprove: (data, actions) => actions.order.capture().then((details) => {
+      const capture = details.purchase_units?.[0]?.payments?.captures?.[0];
+      showSubmittedPayment(capture?.id || data.orderID);
+    }),
+    onCancel: () => {
+      transactionError.textContent = "PayPal payment was cancelled. You can try again within this payment window.";
+    },
+    onError: () => {
+      transactionError.textContent = "PayPal checkout had an issue. Refresh the page and try again.";
+    }
+  }).render("#paypalButtonContainer");
+}
+
 planCards.forEach((card) => {
   card.addEventListener("click", updatePlanState);
 });
@@ -158,8 +197,8 @@ form.addEventListener("submit", (event) => {
   if (method === "paypal") {
     paymentBox.innerHTML = `
       <strong>Live PayPal checkout</strong>
-      <p>Pay $${plan.price} to ${merchantPayment.paypalEmail}. After payment, paste the PayPal receipt or transaction ID below within 15 minutes.</p>
-      <a class="primary-button" href="${paypalPaymentUrl(plan, gmail)}" target="_blank" rel="noopener">Pay with PayPal</a>
+      <p>Pay $${plan.price} to ${merchantPayment.paypalEmail}. PayPal will open securely here and fill the transaction ID after successful payment.</p>
+      <div id="paypalButtonContainer"></div>
     `;
   } else {
     paymentBox.innerHTML = `
@@ -173,6 +212,9 @@ form.addEventListener("submit", (event) => {
   }
 
   modal.showModal();
+  if (method === "paypal") {
+    renderPayPalButton(plan, gmail);
+  }
   startPaymentTimer();
 });
 
@@ -200,17 +242,7 @@ doneButton.addEventListener("click", () => {
     return;
   }
 
-  stopPaymentTimer();
-  modalTitle.textContent = "Payment details submitted";
-  modalText.textContent = "Your transaction ID has been captured in this browser session.";
-  paymentBox.innerHTML = `
-    <strong>Submitted transaction</strong>
-    <p class="copy-line">${transactionId}</p>
-    <p>Keep this ID safe for payment verification.</p>
-  `;
-  transactionInput.disabled = true;
-  doneButton.textContent = "Close";
-  doneButton.dataset.submitted = "true";
+  showSubmittedPayment(transactionId);
 });
 updatePlanState();
 updatePaymentState();

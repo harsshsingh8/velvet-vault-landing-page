@@ -530,6 +530,11 @@ fieldset {
   color: var(--gold);
 }
 
+#paypalButtonContainer {
+  margin-top: 14px;
+  min-height: 48px;
+}
+
 .payment-timer {
   display: flex;
   align-items: center;
