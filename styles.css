@@ -195,16 +195,212 @@ input {
 }
 
 .hero-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.06fr) minmax(360px, 460px);
-  gap: clamp(28px, 6vw, 78px);
-  align-items: center;
+  display: flex;
+  justify-content: center;
   max-width: 1180px;
   margin: 0 auto;
+  padding: clamp(24px, 4vw, 48px) 0 0;
 }
 
-.hero-copy {
-  max-width: 690px;
+.order-pending-wrapper {
+  width: min(980px, 100%);
+  padding: 24px;
+}
+
+.order-pending-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(245, 200, 106, 0.24);
+  border-radius: 32px;
+  background: radial-gradient(circle at top, rgba(255, 196, 110, 0.07), transparent 50%),
+              linear-gradient(180deg, rgba(8, 7, 11, 0.98), rgba(5, 4, 7, 0.84));
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.55), inset 0 0 100px rgba(255, 85, 142, 0.05);
+  padding: clamp(48px, 6vw, 72px) 36px clamp(48px, 6vw, 72px);
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.order-pending-card::before,
+.order-pending-card::after {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  filter: blur(42px);
+  opacity: 0.38;
+}
+
+.order-pending-card::before {
+  top: -180px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(245, 200, 106, 0.24), transparent 52%);
+}
+
+.order-pending-card::after {
+  bottom: -160px;
+  right: 24px;
+  background: radial-gradient(circle, rgba(240, 118, 143, 0.18), transparent 48%);
+}
+
+.order-status-icon {
+  position: relative;
+  width: 138px;
+  height: 138px;
+  margin: 0 auto 30px;
+}
+
+.loading-ring,
+.loading-ring.secondary,
+.loading-core {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+.loading-ring {
+  border: 3px solid rgba(245, 200, 106, 0.32);
+  box-shadow: 0 0 28px rgba(245, 200, 106, 0.35);
+  animation: spin 9s linear infinite;
+}
+
+.loading-ring.secondary {
+  inset: 14px;
+  border: 2px dashed rgba(245, 200, 106, 0.48);
+  box-shadow: 0 0 20px rgba(245, 200, 106, 0.2);
+  animation: spin 5s linear reverse infinite;
+}
+
+.loading-core {
+  inset: 28px;
+  background: radial-gradient(circle, rgba(255, 201, 126, 0.4), rgba(0, 0, 0, 0.14));
+  box-shadow: inset 0 0 24px rgba(255, 182, 93, 0.35);
+}
+
+.order-artwork {
+  position: relative;
+  width: min(320px, 100%);
+  height: 420px;
+  margin: 0 auto 28px;
+}
+
+.silhouette-svg {
+  width: 100%;
+  height: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  filter: drop-shadow(0 0 18px rgba(255, 109, 170, 0.75));
+}
+
+.sparkle {
+  position: absolute;
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(255, 170, 205, 0.9);
+  box-shadow: 0 0 16px rgba(255, 133, 199, 0.8);
+}
+
+.sparkle-1 {
+  top: 42px;
+  left: 18%;
+  transform: translateX(-50%);
+}
+
+.sparkle-2 {
+  top: 26%;
+  right: 16%;
+  width: 9px;
+  height: 9px;
+  background: rgba(245, 200, 106, 0.9);
+  box-shadow: 0 0 16px rgba(245, 200, 106, 0.8);
+}
+
+.sparkle-3 {
+  bottom: 18%;
+  left: 20%;
+  width: 12px;
+  height: 12px;
+  background: rgba(255, 96, 178, 0.88);
+  box-shadow: 0 0 18px rgba(255, 96, 178, 0.72);
+}
+
+.order-copy {
+  margin-bottom: 24px;
+}
+
+.order-label {
+  margin: 0;
+  color: #f5c86a;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.3rem, 2vw, 2rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.order-pending-card h1 {
+  margin: 12px 0 0;
+  color: #ff93c7;
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(4.2rem, 7vw, 6.8rem);
+  line-height: 0.92;
+  text-shadow: 0 0 28px rgba(255, 120, 196, 0.6);
+}
+
+.order-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 16px auto 20px;
+  width: min(280px, 100%);
+}
+
+.divider-line {
+  display: block;
+  flex: 1 1 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245, 200, 106, 0.8), transparent);
+}
+
+.divider-heart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  color: #ff94c8;
+  background: rgba(255, 5, 129, 0.14);
+  box-shadow: 0 0 18px rgba(255, 83, 163, 0.32);
+  font-size: 0.95rem;
+}
+
+.order-status {
+  margin: 0 auto 12px;
+  color: rgba(245, 200, 106, 0.92);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+}
+
+.order-note {
+  margin: 0;
+  color: rgba(251, 250, 248, 0.76);
+  font-size: 0.96rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .status-strip {
