@@ -213,34 +213,40 @@
 .pending-status,
 .pending-note,
 .pending-small {
-  margin: 0 auto 12px;
+  margin: 0 auto 10px;
   color: rgba(251, 250, 248, 0.76);
 }
 
 .pending-status {
   color: rgba(245, 200, 106, 0.9);
   font-weight: 700;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
+  font-size: 0.88rem;
+  line-height: 1.2;
 }
 
 .pending-note {
-  max-width: 320px;
+  max-width: 300px;
+  font-size: 0.82rem;
+  line-height: 1.35;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .pending-small {
-  font-size: 0.92rem;
-  letter-spacing: 0.16em;
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
   color: rgba(255, 255, 255, 0.72);
+  line-height: 1.35;
 }
 
 .pending-small span {
   display: block;
-  margin-top: 10px;
+  margin-top: 8px;
   color: #ffb7d7;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
+  word-break: break-word;
 }
 
 @keyframes pending-spin {
