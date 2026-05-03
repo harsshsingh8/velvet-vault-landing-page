@@ -90,6 +90,13 @@ input {
   letter-spacing: 0;
 }
 
+.brand-image {
+  display: block;
+  width: min(326px, 68vw);
+  height: auto;
+  border-radius: 8px;
+}
+
 .brand-mark {
   display: grid;
   width: 46px;
@@ -598,8 +605,8 @@ fieldset {
     align-items: flex-start;
   }
 
-  .brand span:last-child {
-    display: none;
+  .brand-image {
+    width: min(286px, 64vw);
   }
 
   h1 {
