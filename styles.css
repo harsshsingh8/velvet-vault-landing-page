@@ -980,6 +980,10 @@ fieldset {
   background: #27a17b;
 }
 
+.pay-icon.usd-coin {
+  background: #2775ca;
+}
+
 .pay-option strong,
 .pay-option small {
   display: block;

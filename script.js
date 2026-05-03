@@ -26,7 +26,9 @@ const failedOverlayClose = document.querySelector("#failedOverlayClose");
 const merchantPayment = {
   paypalClientId: "AcBECIH3uD0SvO5ejDCNnD4CUSmhH3gMkOtK_ni2Qx1V5hivmAAowTU86xhU5GTdbaWkeKw6vdeuHy_N",
   paypalEmail: "harshsingh9993@gmail.com",
-  usdtTrc20Address: "TTZsRB6LvEBZN5pNcCWu8qWK6o19rs19jB"
+  usdtTrc20Address: "TTZsRB6LvEBZN5pNcCWu8qWK6o19rs19jB",
+  usdtBep20Address: "0x3c94abad8df6f8a5767c4eebda91f49b635652a7",
+  usdcBep20Address: "0x3c94abad8df6f8a5767c4eebda91f49b635652a7"
 };
 
 const paymentWindowSeconds = 15 * 60;
@@ -35,7 +37,9 @@ let remainingPaymentSeconds = paymentWindowSeconds;
 
 const paymentCopy = {
   paypal: "Continue to live PayPal checkout after confirming your Gmail ID.",
-  usdt: "Send USDT on TRC20 and include your Gmail ID in the payment note."
+  usdt: "Send USDT on TRC20 and include your Gmail ID in the payment note.",
+  "usdt-bep20": "Send USDT on BEP20 and include your Gmail ID in the payment note.",
+  "usdc-bep20": "Send USDC on BEP20 and include your Gmail ID in the payment note."
 };
 
 function selectedPlan() {
@@ -252,7 +256,7 @@ form.addEventListener("submit", (event) => {
       <p>Click the PayPal button below. PayPal will open securely and charge $${plan.price} to the merchant account connected to this checkout.</p>
       <div id="paypalButtonContainer"></div>
     `;
-  } else {
+  } else if (method === "usdt") {
     modalTitle.textContent = `${plan.label} subscription - $${plan.price}`;
     modalText.textContent = `Gmail ID: ${gmail}`;
     paymentBox.innerHTML = `
@@ -262,6 +266,28 @@ form.addEventListener("submit", (event) => {
       <p class="copy-line">${merchantPayment.usdtTrc20Address}</p>
       <p>Note: ${gmail}</p>
       <p>Paste your USDT transaction hash below after sending payment.</p>
+    `;
+  } else if (method === "usdt-bep20") {
+    modalTitle.textContent = `${plan.label} subscription - $${plan.price}`;
+    modalText.textContent = `Gmail ID: ${gmail}`;
+    paymentBox.innerHTML = `
+      <strong>USDT BEP20 payment</strong>
+      <p>Amount: $${plan.price} USDT</p>
+      <p>Network: BEP20 (BSC)</p>
+      <p class="copy-line">${merchantPayment.usdtBep20Address}</p>
+      <p>Note: ${gmail}</p>
+      <p>Paste your USDT transaction hash below after sending payment.</p>
+    `;
+  } else if (method === "usdc-bep20") {
+    modalTitle.textContent = `${plan.label} subscription - $${plan.price}`;
+    modalText.textContent = `Gmail ID: ${gmail}`;
+    paymentBox.innerHTML = `
+      <strong>USDC BEP20 payment</strong>
+      <p>Amount: $${plan.price} USDC</p>
+      <p>Network: BEP20 (BSC)</p>
+      <p class="copy-line">${merchantPayment.usdcBep20Address}</p>
+      <p>Note: ${gmail}</p>
+      <p>Paste your USDC transaction hash below after sending payment.</p>
     `;
   }
 
