@@ -93,15 +93,21 @@ input {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 14px;
   border: 1px solid rgba(255, 255, 255, 0.11);
   border-radius: 8px;
-  padding: 10px 13px 10px 10px;
+  padding: 6px;
   background: rgba(0, 0, 0, 0.22);
   backdrop-filter: blur(18px);
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.24);
   font-weight: 800;
   letter-spacing: 0;
+}
+
+.brand-image {
+  display: block;
+  width: min(430px, 62vw);
+  height: auto;
+  border-radius: 6px;
 }
 
 .brand-seal {
@@ -732,21 +738,13 @@ fieldset {
 
   .brand {
     min-width: 0;
-    padding: 8px;
+    padding: 4px;
   }
 
-  .brand-seal {
-    width: 44px;
-    height: 44px;
-    flex-basis: 44px;
-    font-size: 0.9rem;
+  .brand-image {
+    width: min(252px, 58vw);
   }
 
-  .brand-name {
-    font-size: 1.1rem;
-  }
-
-  .brand-subtitle,
   .verified-badge {
     display: none;
   }
