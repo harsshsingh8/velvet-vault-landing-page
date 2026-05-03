@@ -20,7 +20,7 @@ const transactionError = document.querySelector("#transactionError");
 const transactionField = document.querySelector(".transaction-field");
 
 const merchantPayment = {
-  paypalClientId: "Aew2GBekkmxFwwX61mR4PVwziDsdBSRD7c2Tv0fyUJQq7LuRWW1ilgnv0RzuvTF4LB7UU0Goccb9D2Pf",
+  paypalClientId: "AcBECIH3uD0SvO5ejDCNnD4CUSmhH3gMkOtK_ni2Qx1V5hivmAAowTU86xhU5GTdbaWkeKw6vdeuHy_N",
   paypalEmail: "harshsingh9993@gmail.com",
   usdtTrc20Address: "TTZsRB6LvEBZN5pNcCWu8qWK6o19rs19jB"
 };
