@@ -1,5 +1,5 @@
 const planCards = document.querySelectorAll(".plan-card");
-const paymentOptions = document.querySelectorAll(".pay-option");
+const paymentOptions = document.querySelectorAll(".payment-card");
 const summaryPlan = document.querySelector("#summaryPlan");
 const summaryPrice = document.querySelector("#summaryPrice");
 const paymentHelp = document.querySelector("#paymentHelp");

@@ -101,40 +101,73 @@
             <small id="emailError" aria-live="polite"></small>
           </label>
 
-          <fieldset class="payment-methods" aria-label="Payment method">
-            <label class="pay-option active">
+          <fieldset class="payment-methods-grid" aria-label="Payment method">
+            <!-- PayPal Card -->
+            <label class="payment-card active" style="--glow-color: #3b82f6; --glow-shadow: rgba(59, 130, 246, 0.5)">
               <input type="radio" name="payment" value="paypal" checked>
-              <span class="pay-icon">P</span>
-              <span>
-                <strong>PayPal</strong>
-                <small>Card or PayPal balance</small>
-              </span>
+              <div class="card-inner">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                  <div class="payment-icon paypal-icon">P</div>
+                  <div class="payment-info">
+                    <div class="payment-name">PayPal</div>
+                    <div class="payment-desc">Card or PayPal balance</div>
+                  </div>
+                </div>
+                <div class="instant-badge">⚡ Instant</div>
+                <div class="card-shine"></div>
+              </div>
             </label>
-            <label class="pay-option">
+
+            <!-- USDT TRC20 Card -->
+            <label class="payment-card" style="--glow-color: #00d084; --glow-shadow: rgba(0, 208, 132, 0.5)">
               <input type="radio" name="payment" value="usdt">
-              <span class="pay-icon tether">T</span>
-              <span>
-                <strong>USDT</strong>
-                <small>TRC20 wallet transfer</small>
-              </span>
-              <span class="fast-tag">Fast</span>
+              <div class="card-inner">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                  <div class="payment-icon usdt-icon">T</div>
+                  <div class="payment-info">
+                    <div class="payment-name">USDT TRC20</div>
+                    <div class="payment-desc">Tron blockchain transfer</div>
+                  </div>
+                </div>
+                <div class="instant-badge">⚡ Instant</div>
+                <div class="card-shine"></div>
+              </div>
             </label>
-            <label class="pay-option">
+
+            <!-- USDT BEP20 Card -->
+            <label class="payment-card" style="--glow-color: #06b6d4; --glow-shadow: rgba(6, 182, 212, 0.5)">
               <input type="radio" name="payment" value="usdt-bep20">
-              <span class="pay-icon tether">T</span>
-              <span>
-                <strong>USDT</strong>
-                <small>BEP20 wallet transfer</small>
-              </span>
-              <span class="fast-tag">Fast</span>
+              <div class="card-inner">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                  <div class="payment-icon usdt-icon">T</div>
+                  <div class="payment-info">
+                    <div class="payment-name">USDT BEP20</div>
+                    <div class="payment-desc">BSC blockchain transfer</div>
+                  </div>
+                </div>
+                <div class="instant-badge">⚡ Instant</div>
+                <div class="card-shine"></div>
+              </div>
             </label>
-            <label class="pay-option">
+
+            <!-- USDC BEP20 Card -->
+            <label class="payment-card" style="--glow-color: #ec4899; --glow-shadow: rgba(236, 72, 153, 0.5)">
               <input type="radio" name="payment" value="usdc-bep20">
-              <span class="pay-icon usd-coin">U</span>
-              <span>
-                <strong>USDC</strong>
-                <small>BEP20 wallet transfer</small>
-              </span>
+              <div class="card-inner">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                  <div class="payment-icon usdc-icon">U</div>
+                  <div class="payment-info">
+                    <div class="payment-name">USDC BEP20</div>
+                    <div class="payment-desc">BSC blockchain transfer</div>
+                  </div>
+                </div>
+                <div class="instant-badge">⚡ Instant</div>
+                <div class="card-shine"></div>
+              </div>
             </label>
           </fieldset>
 
