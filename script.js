@@ -4,6 +4,7 @@ const summaryPlan = document.querySelector("#summaryPlan");
 const summaryPrice = document.querySelector("#summaryPrice");
 const paymentHelp = document.querySelector("#paymentHelp");
 const form = document.querySelector("#checkout");
+const submitButton = form.querySelector("button[type='submit']");
 const gmailInput = document.querySelector("#gmail");
 const emailError = document.querySelector("#emailError");
 const modal = document.querySelector("#paymentModal");
@@ -16,6 +17,7 @@ const paymentTimer = document.querySelector("#paymentTimer");
 const paymentTimerBox = document.querySelector(".payment-timer");
 const transactionInput = document.querySelector("#transactionId");
 const transactionError = document.querySelector("#transactionError");
+const transactionField = document.querySelector(".transaction-field");
 
 const merchantPayment = {
   paypalClientId: "AaCi1aE_vOFlp3hyWA4CSiebcp37z5YaFDIEctTELT43J5O",
@@ -59,7 +61,9 @@ function updatePaymentState() {
     option.classList.toggle("active", option.querySelector("input").checked);
   });
 
-  paymentHelp.textContent = paymentCopy[selectedPayment()];
+  const method = selectedPayment();
+  paymentHelp.textContent = paymentCopy[method];
+  submitButton.textContent = method === "paypal" ? "Pay with PayPal" : "Continue USDT payment";
 }
 
 function isGmail(value) {
@@ -100,8 +104,10 @@ function startPaymentTimer() {
 function resetTransactionField() {
   transactionInput.value = "";
   transactionInput.disabled = false;
+  transactionField.hidden = false;
   transactionError.textContent = "";
   doneButton.textContent = "Submit payment details";
+  doneButton.hidden = false;
   doneButton.dataset.submitted = "false";
 }
 
@@ -114,9 +120,11 @@ function showSubmittedPayment(transactionId) {
     <p class="copy-line">${transactionId}</p>
     <p>Keep this ID safe for payment verification.</p>
   `;
+  transactionField.hidden = false;
   transactionInput.value = transactionId;
   transactionInput.disabled = true;
   doneButton.textContent = "Close";
+  doneButton.hidden = false;
   doneButton.dataset.submitted = "true";
 }
 
@@ -190,17 +198,21 @@ form.addEventListener("submit", (event) => {
 
   const plan = selectedPlan();
   const method = selectedPayment();
-  modalTitle.textContent = `${plan.label} subscription - $${plan.price}`;
-  modalText.textContent = `Gmail ID: ${gmail}`;
   resetTransactionField();
 
   if (method === "paypal") {
+    modalTitle.textContent = `Pay with PayPal - $${plan.price}`;
+    modalText.textContent = `${plan.label} subscription for Gmail ID: ${gmail}`;
+    transactionField.hidden = true;
+    doneButton.hidden = true;
     paymentBox.innerHTML = `
       <strong>Live PayPal checkout</strong>
-      <p>Pay $${plan.price} to ${merchantPayment.paypalEmail}. PayPal will open securely here and fill the transaction ID after successful payment.</p>
+      <p>Click the PayPal button below. PayPal will open securely and charge $${plan.price} to the merchant account connected to this checkout.</p>
       <div id="paypalButtonContainer"></div>
     `;
   } else {
+    modalTitle.textContent = `${plan.label} subscription - $${plan.price}`;
+    modalText.textContent = `Gmail ID: ${gmail}`;
     paymentBox.innerHTML = `
       <strong>USDT TRC20 payment</strong>
       <p>Amount: $${plan.price} USDT</p>
