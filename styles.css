@@ -1310,6 +1310,60 @@ fieldset {
   }
 }
 
+/* Desktop and Tablet Improvements */
+@media (min-width: 769px) {
+  .payment-methods-grid {
+    gap: 24px;
+  }
+
+  .card-inner {
+    padding: 32px;
+    box-shadow:
+      0 0 40px var(--glow-shadow, rgba(231, 76, 60, 0.7)),
+      0 0 80px var(--glow-shadow, rgba(231, 76, 60, 0.4)),
+      0 16px 64px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      inset 0 -2px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .instant-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 6px 12px;
+    font-size: 0.65rem;
+    border-radius: 16px;
+  }
+
+  .payment-name {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .payment-desc {
+    opacity: 0.65;
+  }
+
+  .payment-card:hover .card-inner {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow:
+      0 0 50px var(--glow-shadow, rgba(231, 76, 60, 0.8)),
+      0 0 100px var(--glow-shadow, rgba(231, 76, 60, 0.6)),
+      0 20px 70px rgba(0, 0, 0, 0.7),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+
+  .payment-card.active .card-inner,
+  .payment-card input:checked ~ .card-inner {
+    box-shadow:
+      0 0 40px var(--glow-shadow, rgba(231, 76, 60, 0.8)),
+      0 0 80px var(--glow-shadow, rgba(231, 76, 60, 0.55)),
+      0 20px 70px rgba(0, 0, 0, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+}
+
 .pay-option strong,
 .pay-option small {
   display: block;
