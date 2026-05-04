@@ -96,9 +96,15 @@
           </fieldset>
 
           <label class="field">
-            <span>Gmail ID for access</span>
-            <input id="gmail" type="email" placeholder="yourname@gmail.com" autocomplete="email" required>
+            <span>Email address for access</span>
+            <input id="gmail" type="email" placeholder="yourname@example.com" autocomplete="email" required>
             <small id="emailError" aria-live="polite"></small>
+          </label>
+
+          <label class="field">
+            <span>Tax ID</span>
+            <input id="taxId" type="text" placeholder="Enter your tax ID" autocomplete="off" required>
+            <small id="taxError" aria-live="polite"></small>
           </label>
 
           <fieldset class="payment-methods-grid" aria-label="Payment method">

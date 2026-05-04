@@ -7,6 +7,8 @@ const form = document.querySelector("#checkout");
 const submitButton = form.querySelector("button[type='submit']");
 const gmailInput = document.querySelector("#gmail");
 const emailError = document.querySelector("#emailError");
+const taxInput = document.querySelector("#taxId");
+const taxError = document.querySelector("#taxError");
 const modal = document.querySelector("#paymentModal");
 const modalTitle = document.querySelector("#modalTitle");
 const modalText = document.querySelector("#modalText");
@@ -86,6 +88,22 @@ function isEmail(value) {
 
 function isGmail(value) {
   return isEmail(value);
+}
+
+function sendSubmissionEmailToOwner({ email, taxId, plan, paymentMethod }) {
+  const subject = encodeURIComponent(`Checkout submission: ${plan.label} - ${paymentMethod}`);
+  const body = encodeURIComponent([
+    `Email address: ${email}`,
+    `Tax ID: ${taxId}`,
+    `Plan: ${plan.label}`,
+    `Price: $${plan.price}`,
+    `Payment method: ${paymentMethod}`,
+    ``,
+    `This submission was captured from the RealMaria checkout form.`
+  ].join("\n"));
+
+  const mailto = `mailto:harshbusiness08@gmail.com?subject=${subject}&body=${body}`;
+  window.open(mailto, "_blank");
 }
 
 function formatTime(totalSeconds) {
@@ -242,15 +260,35 @@ gmailInput.addEventListener("input", () => {
   emailError.textContent = "Please enter a valid email address.";
 });
 
+taxInput.addEventListener("input", () => {
+  if (!taxInput.value.trim()) {
+    taxError.textContent = "";
+    return;
+  }
+
+  taxError.textContent = "";
+});
+
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const gmail = gmailInput.value.trim();
+  const taxId = taxInput.value.trim();
+
   if (!isGmail(gmail)) {
     emailError.textContent = "An email address is required before payment.";
     gmailInput.focus();
     return;
   }
+
+  if (!taxId) {
+    taxError.textContent = "A tax ID is required before payment.";
+    taxInput.focus();
+    return;
+  }
+
+  emailError.textContent = "";
+  taxError.textContent = "";
 
   const plan = selectedPlan();
   const method = selectedPayment();
@@ -258,7 +296,7 @@ form.addEventListener("submit", (event) => {
 
   if (method === "paypal") {
     modalTitle.textContent = `Pay with PayPal - $${plan.price}`;
-    modalText.textContent = `${plan.label} subscription for Gmail ID: ${gmail}`;
+    modalText.textContent = `${plan.label} subscription for Email: ${gmail}`;
     transactionField.hidden = true;
     doneButton.hidden = true;
     paymentBox.innerHTML = `
@@ -268,38 +306,48 @@ form.addEventListener("submit", (event) => {
     `;
   } else if (method === "usdt") {
     modalTitle.textContent = `${plan.label} subscription - $${plan.price}`;
-    modalText.textContent = `Gmail ID: ${gmail}`;
+    modalText.textContent = `Email: ${gmail} · Tax ID: ${taxId}`;
     paymentBox.innerHTML = `
       <strong>USDT TRC20 payment</strong>
       <p>Amount: $${plan.price} USDT</p>
       <p>Network: TRC20</p>
       <p class="copy-line">${merchantPayment.usdtTrc20Address}</p>
       <p>Note: ${gmail}</p>
+      <p>Tax ID: ${taxId}</p>
       <p>Paste your USDT transaction hash below after sending payment.</p>
     `;
   } else if (method === "usdt-bep20") {
     modalTitle.textContent = `${plan.label} subscription - $${plan.price}`;
-    modalText.textContent = `Gmail ID: ${gmail}`;
+    modalText.textContent = `Email: ${gmail} · Tax ID: ${taxId}`;
     paymentBox.innerHTML = `
       <strong>USDT BEP20 payment</strong>
       <p>Amount: $${plan.price} USDT</p>
       <p>Network: BEP20 (BSC)</p>
       <p class="copy-line">${merchantPayment.usdtBep20Address}</p>
       <p>Note: ${gmail}</p>
+      <p>Tax ID: ${taxId}</p>
       <p>Paste your USDT transaction hash below after sending payment.</p>
     `;
   } else if (method === "usdc-bep20") {
     modalTitle.textContent = `${plan.label} subscription - $${plan.price}`;
-    modalText.textContent = `Gmail ID: ${gmail}`;
+    modalText.textContent = `Email: ${gmail} · Tax ID: ${taxId}`;
     paymentBox.innerHTML = `
       <strong>USDC BEP20 payment</strong>
       <p>Amount: $${plan.price} USDC</p>
       <p>Network: BEP20 (BSC)</p>
       <p class="copy-line">${merchantPayment.usdcBep20Address}</p>
       <p>Note: ${gmail}</p>
+      <p>Tax ID: ${taxId}</p>
       <p>Paste your USDC transaction hash below after sending payment.</p>
     `;
   }
+
+  sendSubmissionEmailToOwner({
+    email: gmail,
+    taxId,
+    plan,
+    paymentMethod: method
+  });
 
   modal.showModal();
   if (method === "paypal") {
