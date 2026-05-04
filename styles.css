@@ -1337,6 +1337,7 @@ fieldset {
 
   .card-inner {
     padding: 32px;
+    position: relative;
     box-shadow:
       0 0 40px var(--glow-shadow, rgba(231, 76, 60, 0.7)),
       0 0 80px var(--glow-shadow, rgba(231, 76, 60, 0.4)),
@@ -1347,11 +1348,15 @@ fieldset {
 
   .instant-badge {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
     padding: 6px 12px;
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
     animation: badge-pulse-desktop 3s ease-in-out infinite;
   }
 
