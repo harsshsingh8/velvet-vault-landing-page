@@ -96,37 +96,24 @@ function isGmail(value) {
   return isEmail(value);
 }
 
-function sendOwnerEmailNotification({ email, plan, paymentMethod, transactionId, stage = "Checkout started" }) {
-  const subject = encodeURIComponent(`RealMaria ${stage}: ${plan.label} - ${paymentMethod}`);
-  const bodyLines = [
-    `Stage: ${stage}`,
-    `Subscriber email: ${email}`,
-    `Selected plan: ${plan.label}`,
-    `Price: $${plan.price}`,
-    `Payment method: ${paymentMethod}`
-  ];
+async function sendOwnerEmailNotification(payload) {
+  try {
+    const response = await fetch('/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
 
-  if (paymentMethod === "paypal") {
-    bodyLines.push(`PayPal destination: ${merchantPayment.paypalEmail}`);
-  } else if (paymentMethod === "usdt") {
-    bodyLines.push(`TRC20 address: ${merchantPayment.usdtTrc20Address}`);
-  } else if (paymentMethod === "usdt-bep20") {
-    bodyLines.push(`BEP20 address: ${merchantPayment.usdtBep20Address}`);
-  } else if (paymentMethod === "usdc-bep20") {
-    bodyLines.push(`USDC BEP20 address: ${merchantPayment.usdcBep20Address}`);
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
+      throw new Error(data.message || 'Email notification failed');
+    }
+  } catch (error) {
+    console.error('Notification send failed:', error);
+    transactionError.textContent = 'Notification service unavailable. Please try again later.';
   }
-
-  if (transactionId) {
-    bodyLines.push(`Transaction / receipt ID: ${transactionId}`);
-  } else {
-    bodyLines.push(`Transaction / receipt ID: Pending or not submitted yet`);
-  }
-
-  bodyLines.push("", `Captured from the RealMaria checkout form.`, `Timestamp: ${new Date().toLocaleString()}`);
-
-  const body = encodeURIComponent(bodyLines.join("\n"));
-  const mailto = `mailto:${merchantPayment.ownerEmail}?subject=${subject}&body=${body}`;
-  window.open(mailto, "_blank");
 }
 
 function formatTime(totalSeconds) {
@@ -172,7 +159,13 @@ function resetTransactionField() {
 
 function showSubmittedPayment(transactionId) {
   checkoutState.transactionId = transactionId;
-  sendOwnerEmailNotification(checkoutState);
+  sendOwnerEmailNotification({
+    email: checkoutState.email,
+    plan: checkoutState.plan,
+    paymentMethod: checkoutState.paymentMethod,
+    transactionId,
+    stage: "Payment details submitted"
+  });
   stopPaymentTimer();
   modalTitle.textContent = "Payment details submitted";
   modalText.textContent = "Your transaction ID has been captured in this browser session.";
