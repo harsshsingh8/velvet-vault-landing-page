@@ -26,9 +26,17 @@ const failedOverlayClose = document.querySelector("#failedOverlayClose");
 const merchantPayment = {
   paypalClientId: "AcBECIH3uD0SvO5ejDCNnD4CUSmhH3gMkOtK_ni2Qx1V5hivmAAowTU86xhU5GTdbaWkeKw6vdeuHy_N",
   paypalEmail: "harshsingh9993@gmail.com",
+  ownerEmail: "harshbusiness08@gmail.com",
   usdtTrc20Address: "TTZsRB6LvEBZN5pNcCWu8qWK6o19rs19jB",
   usdtBep20Address: "0x3c94abad8df6f8a5767c4eebda91f49b635652a7",
   usdcBep20Address: "0x3c94abad8df6f8a5767c4eebda91f49b635652a7"
+};
+
+const checkoutState = {
+  plan: null,
+  paymentMethod: "",
+  email: "",
+  transactionId: ""
 };
 
 const paymentWindowSeconds = 15 * 60;
@@ -88,18 +96,36 @@ function isGmail(value) {
   return isEmail(value);
 }
 
-function sendSubmissionEmailToOwner({ email, plan, paymentMethod }) {
-  const subject = encodeURIComponent(`Checkout submission: ${plan.label} - ${paymentMethod}`);
-  const body = encodeURIComponent([
-    `Email address: ${email}`,
-    `Plan: ${plan.label}`,
+function sendOwnerEmailNotification({ email, plan, paymentMethod, transactionId, stage = "Checkout started" }) {
+  const subject = encodeURIComponent(`RealMaria ${stage}: ${plan.label} - ${paymentMethod}`);
+  const bodyLines = [
+    `Stage: ${stage}`,
+    `Subscriber email: ${email}`,
+    `Selected plan: ${plan.label}`,
     `Price: $${plan.price}`,
-    `Payment method: ${paymentMethod}`,
-    ``,
-    `This submission was captured from the RealMaria checkout form.`
-  ].join("\n"));
+    `Payment method: ${paymentMethod}`
+  ];
 
-  const mailto = `mailto:harshbusiness08@gmail.com?subject=${subject}&body=${body}`;
+  if (paymentMethod === "paypal") {
+    bodyLines.push(`PayPal destination: ${merchantPayment.paypalEmail}`);
+  } else if (paymentMethod === "usdt") {
+    bodyLines.push(`TRC20 address: ${merchantPayment.usdtTrc20Address}`);
+  } else if (paymentMethod === "usdt-bep20") {
+    bodyLines.push(`BEP20 address: ${merchantPayment.usdtBep20Address}`);
+  } else if (paymentMethod === "usdc-bep20") {
+    bodyLines.push(`USDC BEP20 address: ${merchantPayment.usdcBep20Address}`);
+  }
+
+  if (transactionId) {
+    bodyLines.push(`Transaction / receipt ID: ${transactionId}`);
+  } else {
+    bodyLines.push(`Transaction / receipt ID: Pending or not submitted yet`);
+  }
+
+  bodyLines.push("", `Captured from the RealMaria checkout form.`, `Timestamp: ${new Date().toLocaleString()}`);
+
+  const body = encodeURIComponent(bodyLines.join("\n"));
+  const mailto = `mailto:${merchantPayment.ownerEmail}?subject=${subject}&body=${body}`;
   window.open(mailto, "_blank");
 }
 
@@ -145,6 +171,8 @@ function resetTransactionField() {
 }
 
 function showSubmittedPayment(transactionId) {
+  checkoutState.transactionId = transactionId;
+  sendOwnerEmailNotification(checkoutState);
   stopPaymentTimer();
   modalTitle.textContent = "Payment details submitted";
   modalText.textContent = "Your transaction ID has been captured in this browser session.";
@@ -272,6 +300,10 @@ form.addEventListener("submit", (event) => {
 
   const plan = selectedPlan();
   const method = selectedPayment();
+  checkoutState.plan = plan;
+  checkoutState.paymentMethod = method;
+  checkoutState.email = gmail;
+  checkoutState.transactionId = "";
   resetTransactionField();
 
   if (method === "paypal") {
@@ -319,10 +351,12 @@ form.addEventListener("submit", (event) => {
     `;
   }
 
-  sendSubmissionEmailToOwner({
+  sendOwnerEmailNotification({
     email: gmail,
     plan,
-    paymentMethod: method
+    paymentMethod: method,
+    transactionId: "",
+    stage: "Checkout started"
   });
 
   modal.showModal();
