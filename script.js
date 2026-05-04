@@ -36,10 +36,10 @@ let paymentIntervalId;
 let remainingPaymentSeconds = paymentWindowSeconds;
 
 const paymentCopy = {
-  paypal: "Continue to live PayPal checkout after confirming your Gmail ID.",
-  usdt: "Send USDT on TRC20 and include your Gmail ID in the payment note.",
-  "usdt-bep20": "Send USDT on BEP20 and include your Gmail ID in the payment note.",
-  "usdc-bep20": "Send USDC on BEP20 and include your Gmail ID in the payment note."
+  paypal: "Continue to live PayPal checkout after confirming your email address.",
+  usdt: "Send USDT on TRC20 and include your email address in the payment note.",
+  "usdt-bep20": "Send USDT on BEP20 and include your email address in the payment note.",
+  "usdc-bep20": "Send USDC on BEP20 and include your email address in the payment note."
 };
 
 function selectedPlan() {
@@ -80,8 +80,12 @@ function updatePaymentState() {
   }
 }
 
+function isEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+}
+
 function isGmail(value) {
-  return /^[a-zA-Z0-9._%+-]+@(?:gmail|googlemail)\.com$/i.test(value.trim());
+  return isEmail(value);
 }
 
 function formatTime(totalSeconds) {
@@ -235,7 +239,7 @@ gmailInput.addEventListener("input", () => {
     return;
   }
 
-  emailError.textContent = "Please enter a valid Gmail address ending in @gmail.com or @googlemail.com.";
+  emailError.textContent = "Please enter a valid email address.";
 });
 
 form.addEventListener("submit", (event) => {
@@ -243,7 +247,7 @@ form.addEventListener("submit", (event) => {
 
   const gmail = gmailInput.value.trim();
   if (!isGmail(gmail)) {
-    emailError.textContent = "A Gmail ID is required before payment.";
+    emailError.textContent = "An email address is required before payment.";
     gmailInput.focus();
     return;
   }
