@@ -1132,6 +1132,25 @@ fieldset {
   }
 }
 
+@keyframes badge-pulse-desktop {
+  0%, 100% {
+    box-shadow:
+      0 0 20px var(--glow-shadow, rgba(231, 76, 60, 0.75)),
+      0 0 40px var(--glow-shadow, rgba(231, 76, 60, 0.5)),
+      inset 0 1px 0 rgba(255, 255, 255, 0.45),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow:
+      0 0 28px var(--glow-shadow, rgba(231, 76, 60, 0.9)),
+      0 0 56px var(--glow-shadow, rgba(231, 76, 60, 0.7)),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+    transform: scale(1.05);
+  }
+}
+
 .card-bottom {
   position: relative;
   z-index: 2;
@@ -1333,6 +1352,7 @@ fieldset {
     padding: 6px 12px;
     font-size: 0.65rem;
     border-radius: 16px;
+    animation: badge-pulse-desktop 3s ease-in-out infinite;
   }
 
   .payment-name {
