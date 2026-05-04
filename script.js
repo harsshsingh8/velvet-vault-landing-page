@@ -81,7 +81,7 @@ function updatePaymentState() {
 }
 
 function isGmail(value) {
-  return /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(value.trim());
+  return /^[a-zA-Z0-9._%+-]+@(?:gmail|googlemail)\.com$/i.test(value.trim());
 }
 
 function formatTime(totalSeconds) {
@@ -235,7 +235,7 @@ gmailInput.addEventListener("input", () => {
     return;
   }
 
-  emailError.textContent = "Please enter a valid Gmail address ending in @gmail.com.";
+  emailError.textContent = "Please enter a valid Gmail address ending in @gmail.com or @googlemail.com.";
 });
 
 form.addEventListener("submit", (event) => {
