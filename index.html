@@ -103,69 +103,94 @@
 
           <fieldset class="payment-methods-grid" aria-label="Payment method">
             <!-- PayPal Card -->
-            <label class="payment-card active" style="--glow-color: #ec4899; --glow-rgb: 236, 72, 153; --glow-shadow: rgba(236, 72, 153, 0.8)">
+            <label class="payment-card paypal-card" style="--glow-color: #ec4899; --glow-rgb: 236, 72, 153; --glow-shadow: rgba(236, 72, 153, 0.85)">
               <input type="radio" name="payment" value="paypal" checked>
               <div class="card-inner">
                 <div class="card-glow"></div>
-                <div class="card-content">
-                  <div class="payment-icon paypal-icon">P</div>
-                  <div class="payment-info">
-                    <div class="payment-name">PayPal</div>
-                    <div class="payment-desc">Card or PayPal balance</div>
+                <div class="card-top">
+                  <div class="payment-logo-container">
+                    <svg class="payment-logo paypal-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <!-- PayPal Official Logo -->
+                      <rect width="24" height="24" rx="4" fill="#003087"/>
+                      <text x="12" y="17" font-size="16" font-weight="900" fill="white" text-anchor="middle" font-family="Arial, sans-serif">P</text>
+                    </svg>
                   </div>
+                  <div class="instant-badge">⚡ Instant</div>
                 </div>
-                <div class="instant-badge">⚡ Instant</div>
+                <div class="card-bottom">
+                  <div class="payment-name">PayPal</div>
+                  <div class="payment-desc">Card or PayPal balance</div>
+                </div>
                 <div class="card-shine"></div>
               </div>
             </label>
 
             <!-- USDT TRC20 Card -->
-            <label class="payment-card" style="--glow-color: #84cc16; --glow-rgb: 132, 204, 22; --glow-shadow: rgba(132, 204, 22, 0.8)">
+            <label class="payment-card usdt-card" style="--glow-color: #26a17b; --glow-rgb: 38, 161, 123; --glow-shadow: rgba(38, 161, 123, 0.85)">
               <input type="radio" name="payment" value="usdt">
               <div class="card-inner">
                 <div class="card-glow"></div>
-                <div class="card-content">
-                  <div class="payment-icon usdt-icon">T</div>
-                  <div class="payment-info">
-                    <div class="payment-name">USDT</div>
-                    <div class="payment-desc">TRC20 wallet transfer</div>
+                <div class="card-top">
+                  <div class="payment-logo-container">
+                    <svg class="payment-logo usdt-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <!-- USDT Tether Official Logo -->
+                      <circle cx="12" cy="12" r="11" fill="#26a17b"/>
+                      <text x="12" y="16" font-size="14" font-weight="900" fill="white" text-anchor="middle" font-family="Arial, sans-serif">₮</text>
+                    </svg>
                   </div>
+                  <div class="instant-badge">⚡ Instant</div>
                 </div>
-                <div class="instant-badge">⚡ Instant</div>
+                <div class="card-bottom">
+                  <div class="payment-name">USDT</div>
+                  <div class="payment-desc">TRC20 wallet transfer</div>
+                </div>
                 <div class="card-shine"></div>
               </div>
             </label>
 
             <!-- USDT BEP20 Card -->
-            <label class="payment-card" style="--glow-color: #00d9ff; --glow-rgb: 0, 217, 255; --glow-shadow: rgba(0, 217, 255, 0.8)">
+            <label class="payment-card usdt-card" style="--glow-color: #26a17b; --glow-rgb: 38, 161, 123; --glow-shadow: rgba(38, 161, 123, 0.85)">
               <input type="radio" name="payment" value="usdt-bep20">
               <div class="card-inner">
                 <div class="card-glow"></div>
-                <div class="card-content">
-                  <div class="payment-icon usdt-icon">T</div>
-                  <div class="payment-info">
-                    <div class="payment-name">USDT</div>
-                    <div class="payment-desc">BEP20 wallet transfer</div>
+                <div class="card-top">
+                  <div class="payment-logo-container">
+                    <svg class="payment-logo usdt-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <!-- USDT Tether Official Logo -->
+                      <circle cx="12" cy="12" r="11" fill="#26a17b"/>
+                      <text x="12" y="16" font-size="14" font-weight="900" fill="white" text-anchor="middle" font-family="Arial, sans-serif">₮</text>
+                    </svg>
                   </div>
+                  <div class="instant-badge">⚡ Instant</div>
                 </div>
-                <div class="instant-badge">⚡ Instant</div>
+                <div class="card-bottom">
+                  <div class="payment-name">USDT</div>
+                  <div class="payment-desc">BEP20 wallet transfer</div>
+                </div>
                 <div class="card-shine"></div>
               </div>
             </label>
 
             <!-- USDC BEP20 Card -->
-            <label class="payment-card" style="--glow-color: #0ea5e9; --glow-rgb: 14, 165, 233; --glow-shadow: rgba(14, 165, 233, 0.8)">
+            <label class="payment-card usdc-card" style="--glow-color: #2775ca; --glow-rgb: 39, 117, 202; --glow-shadow: rgba(39, 117, 202, 0.85)">
               <input type="radio" name="payment" value="usdc-bep20">
               <div class="card-inner">
                 <div class="card-glow"></div>
-                <div class="card-content">
-                  <div class="payment-icon usdc-icon">$</div>
-                  <div class="payment-info">
-                    <div class="payment-name">USDC</div>
-                    <div class="payment-desc">BEP20 wallet transfer</div>
+                <div class="card-top">
+                  <div class="payment-logo-container">
+                    <svg class="payment-logo usdc-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <!-- USDC Official Logo -->
+                      <circle cx="12" cy="12" r="11" fill="#2775ca"/>
+                      <circle cx="12" cy="12" r="9.5" fill="none" stroke="white" stroke-width="1.5"/>
+                      <text x="12" y="16" font-size="13" font-weight="900" fill="white" text-anchor="middle" font-family="Arial, sans-serif">$</text>
+                    </svg>
                   </div>
+                  <div class="instant-badge">⚡ Instant</div>
                 </div>
-                <div class="instant-badge">⚡ Instant</div>
+                <div class="card-bottom">
+                  <div class="payment-name">USDC</div>
+                  <div class="payment-desc">BEP20 wallet transfer</div>
+                </div>
                 <div class="card-shine"></div>
               </div>
             </label>
