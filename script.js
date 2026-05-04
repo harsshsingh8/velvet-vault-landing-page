@@ -39,6 +39,8 @@ const checkoutState = {
   transactionId: ""
 };
 
+const emailEndpoint = 'http://localhost:3000/send-email';
+
 const paymentWindowSeconds = 15 * 60;
 let paymentIntervalId;
 let remainingPaymentSeconds = paymentWindowSeconds;
@@ -98,7 +100,7 @@ function isGmail(value) {
 
 async function sendOwnerEmailNotification(payload) {
   try {
-    const response = await fetch('/send-email', {
+    const response = await fetch(emailEndpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

@@ -1,6 +1,7 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -8,6 +9,7 @@ const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname)));
 
 const ownerEmail = process.env.OWNER_EMAIL || 'harshbusiness08@gmail.com';
 const transportConfig = {
@@ -21,6 +23,10 @@ const transportConfig = {
 };
 
 const transporter = nodemailer.createTransport(transportConfig);
+
+if (!transportConfig.auth.user || !transportConfig.auth.pass) {
+  console.warn('WARNING: SMTP_USER and SMTP_PASS are not configured. Email delivery will fail until these values are set in .env.');
+}
 
 async function sendNotificationEmail(payload) {
   const {

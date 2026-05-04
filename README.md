@@ -10,8 +10,9 @@ This project now includes a Node backend that sends checkout details to your ema
 2. Fill in your SMTP credentials and owner email
 3. Run `npm install`
 4. Start the server with `npm start`
+5. Open the site at `http://localhost:3000`
 
-The frontend will POST checkout state and transaction IDs to `/send-email`.
+The frontend will POST checkout state and transaction IDs to `http://localhost:3000/send-email`.
 
 ## Publish
 
