@@ -71,7 +71,13 @@ function updatePaymentState() {
 
   const method = selectedPayment();
   paymentHelp.textContent = paymentCopy[method];
-  submitButton.textContent = method === "paypal" ? "Pay with PayPal" : "Continue USDT payment";
+  if (method === "paypal") {
+    submitButton.textContent = "Pay with PayPal";
+  } else if (method === "usdc-bep20") {
+    submitButton.textContent = "Continue USDC payment";
+  } else {
+    submitButton.textContent = "Continue USDT payment";
+  }
 }
 
 function isGmail(value) {
